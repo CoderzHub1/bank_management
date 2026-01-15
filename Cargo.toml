@@ -4,3 +4,6 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+sled = "0.34.7"
+serde = { version = "1.0", features = ["derive"] }
+bincode = { version = "1.3" }
