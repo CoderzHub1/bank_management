@@ -8,8 +8,8 @@ use std::error::Error;
 fn main() -> Result<(), Box<dyn Error>> {
     // Initialisation
     let mut _accessed_account: Option<Account> = None;
-    let accounts_db: Db = sled::open("db/accounts")?;
-
+    let db: Db = sled::open("db")?;
+    let accounts_db = db.open_tree("accounts")?;
     // Main application loop
     
     loop {
@@ -19,7 +19,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 let username: String = prompt("Enter your username: ")?;
                 let password: String = prompt("Enter your password: ")?;
 
-                _accessed_account = new_acc(username, password, &accounts_db);
+                _accessed_account = Some(new_acc(username, password, &accounts_db)?);
             }
 
             "print" => match &_accessed_account {
