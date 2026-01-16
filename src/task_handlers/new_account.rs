@@ -27,11 +27,11 @@ pub fn new_acc(username: String, password: String, db: &Tree) -> Result<Account,
     };
 
 
-    match db.get(&account.username) {
-        Ok(_x) => {
+    match db.get(&account.username)? {
+        Some(_x) => {
             return Err(AccountCreationErrors::AccountCreationErrors::AlreadyExists().into());
         }
-        Err(_x) => {
+        None => {
             let encoded = bincode::serialize(&account)?;
             db.insert(&account.username, encoded)?;
 
